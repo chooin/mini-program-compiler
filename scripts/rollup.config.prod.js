@@ -1,6 +1,6 @@
 const common = require('./rollup.config.common');
 const strip = require('@rollup/plugin-strip');
-const {uglify} = require('rollup-plugin-uglify');
+const {terser} = require('rollup-plugin-terser');
 
 const plugins = [
   strip({
@@ -9,10 +9,9 @@ const plugins = [
       'console.*'
     ]
   }),
-  // uglify(),
+  terser(),
 ];
 
 module.exports = {
-  ...common,
   plugins: common.plugins.concat(plugins),
 }
