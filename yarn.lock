@@ -6043,6 +6043,13 @@ postcss-ordered-values@^4.1.2:
     postcss "^7.0.0"
     postcss-value-parser "^3.0.0"
 
+postcss-pxtorpx-pro@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/postcss-pxtorpx-pro/-/postcss-pxtorpx-pro-1.0.0.tgz#85f02acb4111bcd52e0b09aa467448d8fa02380d"
+  integrity sha512-MXASoQS5oqAevEdZlRROsaSFMYMGbxUauWX30kIV+yUpJPqLBRqDEM63NCVVn6MpEUQ0yBsO1yXriNt/OmUxLw==
+  dependencies:
+    postcss "^7.0.27"
+
 postcss-reduce-initial@^4.0.3:
   version "4.0.3"
   resolved "https://registry.npmjs.org/postcss-reduce-initial/-/postcss-reduce-initial-4.0.3.tgz#7fd42ebea5e9c814609639e2c2e84ae270ba48df"

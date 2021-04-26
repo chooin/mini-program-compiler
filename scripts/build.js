@@ -4,7 +4,7 @@ const chalk = require('chalk');
 const postcss = require('postcss');
 const fse = require('fs-extra');
 const sass = require('dart-sass');
-const path = require('path');
+const pxtorpx = require('postcss-pxtorpx-pro');
 
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -26,7 +26,7 @@ function bundle(file) {
         format: 'cjs',
       });
 
-      console.log(`${chalk.green('编译')} ${file} ${Date.now() - trace[file]}ms`)
+      console.log(`${chalk.green('编译')} ${file.replace(/^packages\//, '')} ${Date.now() - trace[file]}ms`)
       return;
     }
     if (/\.scss$/.test(file)) {
@@ -40,15 +40,27 @@ function bundle(file) {
       if (!fse.existsSync(outDir)) {
         await fse.mkdirp(outDir)
       }
+      const {css: wxss} = await postcss()
+        .use(
+          pxtorpx({
+            minPixelValue: 2,
+            transform: (x) => x
+          })
+        )
+        .process(css, {
+          map: false,
+          from: undefined
+        })
       fse.writeFile(
         outFile,
-        css.toString(),
+        wxss,
       ).catch((_) => console.log(_))
-      console.log(`${chalk.green('编译')} ${file} ${Date.now() - trace[file]}ms`)
+
+      console.log(`${chalk.green('编译')} ${file.replace(/^packages\//, '')} ${Date.now() - trace[file]}ms`)
       return;
     }
     fse.copy(file, file.replace(/^packages/, 'dist'));
-    console.log(`${chalk.yellow('拷贝')} ${file} ${Date.now() - trace[file]}ms`)
+    console.log(`${chalk.yellow('拷贝')} ${file.replace(/^packages\//, '')} ${Date.now() - trace[file]}ms`)
   })()
 }
 

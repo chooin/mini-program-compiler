@@ -1,5 +1,5 @@
 const t = require('@babel/types');
-const fs = require('fs-extra');
+const fse = require('fs-extra');
 
 module.exports = function () {
   return {
@@ -10,7 +10,7 @@ module.exports = function () {
             .filename
             .replace(`${source.cwd}/packages/`, '')
             .split('/')[0];
-          fs.copy(`node_modules/${path.node.source.value}`, `dist/${projectName}/miniprogram_npm/${path.node.source.value}`)
+          fse.copy(`node_modules/${path.node.source.value}`, `dist/${projectName}/miniprogram_npm/${path.node.source.value}`)
         }
       }
     }
