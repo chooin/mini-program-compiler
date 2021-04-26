@@ -4,12 +4,9 @@ const commonjs = require('@rollup/plugin-commonjs');
 
 module.exports = {
   plugins: [
-    commonjs({
-      exclude: ['node_modules/**'],
-    }),
+    commonjs(),
     nodeResolve({
-      resolveOnly: ['packages'],
-      extensions: ['.ts'],
+      extensions: ['.js', '.ts'],
     }),
     babel({
       extensions: ['.js', '.ts'],
