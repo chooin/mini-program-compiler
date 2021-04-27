@@ -4,7 +4,7 @@ const chalk = require('chalk');
 const postcss = require('postcss');
 const fse = require('fs-extra');
 const sass = require('dart-sass');
-const pxtorpx = require('postcss-pxtorpx-pro');
+const {px2rpx} = require('postcss-pxtorpx-pro');
 
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -42,7 +42,7 @@ function bundle(file) {
       }
       const {css: wxss} = await postcss()
         .use(
-          pxtorpx({
+          px2rpx({
             minPixelValue: 2,
             transform: (x) => x
           })
