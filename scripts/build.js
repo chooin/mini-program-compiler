@@ -4,7 +4,7 @@ const chalk = require('chalk');
 const postcss = require('postcss');
 const fse = require('fs-extra');
 const sass = require('dart-sass');
-const {px2rpx} = require('postcss-pxtorpx-pro');
+const px2rpx = require('postcss-pxtorpx-pro');
 
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -14,6 +14,8 @@ function bundle(file) {
   (async() => {
     trace[file] = Date.now();
     if (/\.ts$/.test(file)) {
+      console.log(`${chalk.yellow('编译')} ${file.replace(/^packages\//, '')}`)
+
       const bundle = await rollup.rollup({
         ...(require(`./rollup.config.${NODE_ENV}`)),
         input: file,
@@ -26,10 +28,14 @@ function bundle(file) {
         format: 'cjs',
       });
 
-      console.log(`${chalk.green('编译')} ${file.replace(/^packages\//, '')} ${Date.now() - trace[file]}ms`)
+      console.log(`${chalk.green('生成')} ${file
+        .replace(/^packages\//, '')
+        .replace(/\.ts$/, '.js')} ${Date.now() - trace[file]}ms`)
       return;
     }
     if (/\.scss$/.test(file)) {
+      console.log(`${chalk.yellow('编译')} ${file.replace(/^packages\//, '')}`)
+
       const outFile = file
         .replace(/^packages/, 'dist')
         .replace(/\.scss$/, '.wxss');
@@ -56,11 +62,11 @@ function bundle(file) {
         wxss,
       ).catch((_) => console.log(_))
 
-      console.log(`${chalk.green('编译')} ${file.replace(/^packages\//, '')} ${Date.now() - trace[file]}ms`)
+      console.log(`${chalk.green('生成')} ${file.replace(/^packages\//, '')} ${Date.now() - trace[file]}ms`)
       return;
     }
     fse.copy(file, file.replace(/^packages/, 'dist'));
-    console.log(`${chalk.yellow('拷贝')} ${file.replace(/^packages\//, '')} ${Date.now() - trace[file]}ms`)
+    console.log(`${chalk.white('拷贝')} ${file.replace(/^packages\//, '')} ${Date.now() - trace[file]}ms`)
   })()
 }
 
