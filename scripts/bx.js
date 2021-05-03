@@ -5,7 +5,7 @@ module.exports = function () {
   return {
     visitor: {
       ImportDeclaration (path, source) {
-        if (/^core-js/.test(path.node.source.value)) {
+        if (/^core-js\//.test(path.node.source.value)) {
           const projectName = source
             .filename
             .replace(`${source.cwd}/packages/`, '')

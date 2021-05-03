@@ -90,7 +90,7 @@ const build = async (file) => {
   )
 }
 
-module.exports = () => {
+module.exports = function () {
   run()
     .then(() => removeDist())
     .then(() => {
