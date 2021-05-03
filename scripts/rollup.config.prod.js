@@ -13,5 +13,7 @@ const plugins = [
 ];
 
 module.exports = {
-  plugins: common.plugins.concat(plugins),
+  plugins: common
+    .plugins
+    .concat(plugins),
 }
