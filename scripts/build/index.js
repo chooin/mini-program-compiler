@@ -5,7 +5,7 @@ const postcss = require('postcss')
 const fse = require('fs-extra')
 const sass = require('dart-sass')
 const px2rpx = require('postcss-pxtorpx-pro')
-const {trace, consoleToString} = require('./utils')
+const {trace, consoleToString, projectConfig} = require('./utils')
 
 const NODE_ENV = process.env.NODE_ENV
 
@@ -95,7 +95,7 @@ module.exports = function () {
     .then(() => removeDist())
     .then(() => {
       const watcher = chokidar
-        .watch(['packages'], {
+        .watch(projectConfig.watchDir, {
           ignored: [
             '**/.DS_Store',
             '**/.gitkeep'
