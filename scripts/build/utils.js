@@ -1,4 +1,5 @@
 const chalk = require('chalk')
+const fse = require('fs-extra')
 
 class Trace {
   traces = {}
@@ -12,17 +13,15 @@ class Trace {
   }
 }
 
-const consoleToString = (...array) => {
+const logger = (...array) => {
   console.log(array.join(' '))
 }
 
 const projectConfig = () => {
-  try {
-    require('../../packages/project.config.json')
-  } catch (e) {
-    consoleToString(
+  if (!fse.existsSync('packages/project.config.json')) {
+    logger(
       chalk.red('错误'),
-      '缺少 packages 目录下缺少 project.config.json'
+      'packages 目录下缺少 project.config.json'
     )
     process.exit(0)
   }
@@ -32,16 +31,13 @@ const projectConfig = () => {
     pluginRoot,
     compileType
   } = require('../../packages/project.config.json')
-
   let watchDir = [
     miniprogramRoot,
     'project.config.json'
   ]
-
   if (compileType === 'plugin') {
     watchDir.push(pluginRoot)
   }
-
   watchDir = watchDir.map((item) => `packages/${item}`)
 
   return {
@@ -54,6 +50,6 @@ const projectConfig = () => {
 
 module.exports = {
   trace: new Trace(),
-  consoleToString,
+  logger,
   projectConfig: projectConfig(),
 }

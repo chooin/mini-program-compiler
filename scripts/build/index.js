@@ -5,7 +5,7 @@ const postcss = require('postcss')
 const fse = require('fs-extra')
 const sass = require('dart-sass')
 const px2rpx = require('postcss-pxtorpx-pro')
-const {trace, consoleToString, projectConfig} = require('./utils')
+const {trace, logger, projectConfig} = require('./utils')
 
 const NODE_ENV = process.env.NODE_ENV
 
@@ -16,7 +16,7 @@ const removeDist = () => fse.remove('dist')
 const build = async (file) => {
   trace.start(file)
   if (/\.ts$/.test(file)) {
-    consoleToString(
+    logger(
       chalk.yellow('编译'),
       file.replace(/^packages\//, ''),
     )
@@ -33,7 +33,7 @@ const build = async (file) => {
       format: 'cjs',
     })
 
-    consoleToString(
+    logger(
       chalk.green('生成'),
       file
         .replace(/^packages\//, '')
@@ -43,7 +43,7 @@ const build = async (file) => {
     return
   }
   if (/\.scss$/.test(file)) {
-    consoleToString(
+    logger(
       chalk.yellow('编译'),
       file.replace(/^packages\//, ''),
     )
@@ -74,7 +74,7 @@ const build = async (file) => {
       wxss,
     ).catch((_) => console.log(_))
 
-    consoleToString(
+    logger(
       chalk.green('生成'),
       outFile.replace(/^dist\//, ''),
       trace.end(file),
@@ -83,7 +83,7 @@ const build = async (file) => {
   }
 
   fse.copy(file, file.replace(/^packages/, 'dist'))
-  consoleToString(
+  logger(
     '拷贝',
     file.replace(/^packages\//, ''),
     trace.end(file),
@@ -108,6 +108,10 @@ module.exports = function () {
 
       watcher.on('change',(file) => {
         return build(file)
+      })
+
+      watcher.on('ready', () => {
+        console.log('ready')
       })
     })
     .catch(() => {
