@@ -101,9 +101,20 @@ const build = async (file) => {
   )
 }
 
-module.exports = function () {
-  fse
-    .remove('dist')
+const run = () => {
+  return Promise.resolve()
+}
+const removeDist = () => {
+  return fse.remove('dist')
+}
+
+(() => {
+  run()
+    .then(() => {
+      if (NODE_ENV === 'prod') {
+        removeDist()
+      }
+    })
     .then(() => {
       const watcher = chokidar
         .watch(projectConfig.watchDir, {
@@ -124,8 +135,5 @@ module.exports = function () {
       watcher.on('ready', () => {
         console.log('ready')
       })
-    })
-    .catch(() => {
-      process.exit(1)
-    })
-}
+  })
+})()
