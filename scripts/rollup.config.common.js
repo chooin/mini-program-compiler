@@ -1,17 +1,21 @@
-const {babel} = require('@rollup/plugin-babel');
-const {nodeResolve} = require('@rollup/plugin-node-resolve');
-const commonjs = require('@rollup/plugin-commonjs');
+const {babel} = require('@rollup/plugin-babel')
+const replace = require('@rollup/plugin-replace')
+const dotenv = require('dotenv')
+
+const env = dotenv.config({
+  path: '.env.production'
+})
 
 module.exports = {
   plugins: [
-    commonjs(),
-    nodeResolve({
-      extensions: ['.js', '.ts'],
-    }),
     babel({
       extensions: ['.js', '.ts'],
-      babelHelpers: 'runtime',
+      babelHelpers: 'bundled',
       exclude: ['node_modules/**'],
     }),
+    replace({
+      ...env.parsed,
+      preventAssignment: false
+    })
   ],
 }

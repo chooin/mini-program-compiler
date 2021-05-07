@@ -3,41 +3,35 @@ const rollup = require('rollup')
 const chalk = require('chalk')
 const postcss = require('postcss')
 const fse = require('fs-extra')
-const sass = require('dart-sass')
+const {renderSync} = require('dart-sass')
 const px2rpx = require('postcss-pxtorpx-pro')
+const deepmerge = require('deepmerge');
 const {trace, logger, projectConfig} = require('./utils')
 
 const NODE_ENV = process.env.NODE_ENV
 
-const run = () => Promise.resolve()
-
-const removeDist = () => fse.remove('dist')
-
 const build = async (file) => {
   trace.start(file)
   if (/\.ts$/.test(file)) {
+    const outputFile = file
+      .replace(/^packages/, 'dist')
+      .replace(/\.ts$/, '.js')
     logger(
       chalk.yellow('编译'),
       file.replace(/^packages\//, ''),
     )
-
     const bundle = await rollup.rollup({
       ...(require(`../rollup.config.${NODE_ENV}`)),
       input: file,
     })
     await bundle.write({
-      file: file
-        .replace(/^packages/, 'dist')
-        .replace(/\.ts$/, '.js'),
+      file: outputFile,
       exports: 'named',
       format: 'cjs',
     })
-
     logger(
       chalk.green('生成'),
-      file
-        .replace(/^packages\//, '')
-        .replace(/\.ts$/, '.js'),
+      outputFile.replace(/^dist\//, ''),
       trace.end(file)
     )
     return
@@ -47,16 +41,15 @@ const build = async (file) => {
       chalk.yellow('编译'),
       file.replace(/^packages\//, ''),
     )
-
-    const outFile = file
+    const outputFile = file
       .replace(/^packages/, 'dist')
       .replace(/\.scss$/, '.wxss')
-    const outDir = outFile.replace(/\/[\w-_]+.wxss/, '')
-    const {css} = sass.renderSync({
+    const {css} = renderSync({
       file,
     })
-    if (!fse.existsSync(outDir)) {
-      await fse.mkdirp(outDir)
+    const outputDir = outputFile.replace(/\/[\w-_]+.wxss/, '')
+    if (!fse.existsSync(outputDir)) {
+      await fse.mkdirp(outputDir)
     }
     const {css: wxss} = await postcss()
       .use(
@@ -69,20 +62,38 @@ const build = async (file) => {
         map: false,
         from: undefined
       })
-    fse.writeFile(
-      outFile,
-      wxss,
-    ).catch((_) => console.log(_))
-
+    await fse.writeFile(outputFile, wxss, () => {})
     logger(
       chalk.green('生成'),
-      outFile.replace(/^dist\//, ''),
+      outputFile.replace(/^dist\//, ''),
+      trace.end(file),
+    )
+    return
+  }
+  if (/project.config.json$/.test(file)) {
+    const outputFile = file.replace(/^packages/, 'dist')
+    const outputDir = outputFile.replace('project.config.json', '')
+    if (!fse.existsSync(outputDir)) {
+      await fse.mkdirp(outputDir)
+    }
+    let data = await fse.readFile(file, 'utf8')
+    data = deepmerge(JSON.parse(data), {
+      setting: {
+        enhance: true,
+        es6: true,
+      }
+    })
+    await fse.writeFile(outputFile, JSON.stringify(data, null, 2))
+    logger(
+      chalk.green('生成'),
+      outputFile.replace(/^dist\//, ''),
       trace.end(file),
     )
     return
   }
 
-  fse.copy(file, file.replace(/^packages/, 'dist'))
+  trace.start(file)
+  await fse.copy(file, file.replace(/^packages/, 'dist'))
   logger(
     '拷贝',
     file.replace(/^packages\//, ''),
@@ -90,9 +101,20 @@ const build = async (file) => {
   )
 }
 
-module.exports = function () {
+const run = () => {
+  return Promise.resolve()
+}
+const removeDist = () => {
+  return fse.remove('dist')
+}
+
+(() => {
   run()
-    .then(() => removeDist())
+    .then(() => {
+      if (NODE_ENV === 'prod') {
+        removeDist()
+      }
+    })
     .then(() => {
       const watcher = chokidar
         .watch(projectConfig.watchDir, {
@@ -113,8 +135,5 @@ module.exports = function () {
       watcher.on('ready', () => {
         console.log('ready')
       })
-    })
-    .catch(() => {
-      process.exit(1)
-    })
-}
+  })
+})()

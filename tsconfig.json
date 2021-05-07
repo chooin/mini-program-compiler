@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES5",
-    "lib": ["ESNext"]
+    "target": "ES6",
+    "lib": ["ESNext"],
   },
+  "include": [
+    "global.d.ts"
+  ]
 }
