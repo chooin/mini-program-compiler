@@ -4,8 +4,8 @@ const postcss = require('postcss')
 const fse = require('fs-extra')
 const {renderSync} = require('dart-sass')
 const px2rpx = require('postcss-pxtorpx-pro')
-const deepmerge = require('deepmerge');
-import {logger, trace, watchPaths, env} from './utils'
+import {logger, trace, watchPaths, NODE_ENV} from './utils'
+import {json} from 'fast-files'
 
 const build = async (file) => {
   trace.start(file)
@@ -17,7 +17,7 @@ const build = async (file) => {
       file.replace(/^src\//, ''),
     )
     const bundle = await rollup.rollup({
-      ...(require(`./rollup.config.${env}`)),
+      ...(require(`./rollup.config.${NODE_ENV}`)),
       input: file,
     })
     await bundle.write({
@@ -38,10 +38,10 @@ const build = async (file) => {
     const outputFile = file
       .replace(/^src/, 'dist')
       .replace(/\.scss$/, '.wxss')
+    const outputDir = outputFile.replace(/\/[\w-_]+.wxss/, '')
     const {css} = renderSync({
       file,
     })
-    const outputDir = outputFile.replace(/\/[\w-_]+.wxss/, '')
     if (!fse.existsSync(outputDir)) {
       await fse.mkdirp(outputDir)
     }
@@ -65,18 +65,15 @@ const build = async (file) => {
   }
   if (/project.config.json$/.test(file)) {
     const outputFile = file.replace(/^src/, 'dist')
-    const outputDir = outputFile.replace('project.config.json', '')
-    if (!fse.existsSync(outputDir)) {
-      await fse.mkdirp(outputDir)
-    }
-    let data = await fse.readFile(file, 'utf8')
-    data = deepmerge(JSON.parse(data), {
-      setting: {
-        enhance: true,
-        es6: true,
-      }
-    })
-    await fse.writeFile(outputFile, JSON.stringify(data, null, 2))
+    json
+      .readFile(file)
+      .merge({
+        setting: {
+          enhance: true,
+          es6: true,
+        }
+      })
+      .saveFile(outputFile)
     logger.create(
       file.replace(/^src\//, ''),
       trace.end(file),
@@ -102,7 +99,7 @@ const removeDist = () => {
 (() => {
   run()
     .then(() => {
-      if (env === 'prod') {
+      if (NODE_ENV === 'prod') {
         return removeDist()
       }
     })

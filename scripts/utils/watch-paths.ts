@@ -1,8 +1,8 @@
-import {json} from 'mrm-core'
+import {json} from 'fast-files'
 import path from 'path'
 
 export default (() => {
-  const config = json(path.resolve(__dirname, '../../src/project.config.json'))
+  const config = json.readFile(path.resolve(__dirname, '../../src/project.config.json'))
   const compileType = config.get('compileType')
   const miniprogramRoot = config.get('miniprogramRoot')
   const pluginRoot = config.get('pluginRoot')
