@@ -3,6 +3,7 @@
     "baseUrl": ".",
     "target": "ES6",
     "lib": ["ESNext"],
+    "esModuleInterop": true,
   },
   "include": [
     "global.d.ts"

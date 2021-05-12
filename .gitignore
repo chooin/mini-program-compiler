@@ -4,7 +4,7 @@ yarn-debug.log*
 yarn-error.log*
 
 dist
-packages/*
+src/*
 node_modules
 
 !.gitkeep
