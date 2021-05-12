@@ -20,7 +20,6 @@
     "husky": "^6.0.0",
     "kleur": "^4.1.4",
     "miniprogram-ci": "^1.2.3",
-    "mrm-core": "^6.0.0",
     "postcss": "^8.2.15",
     "postcss-pxtorpx-pro": "^1.0.0",
     "prettier": "^2.3.0",
@@ -31,6 +30,8 @@
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
   },
-  "dependencies": {},
+  "dependencies": {
+    "fast-files": "^1.0.0"
+  },
   "license": "MIT"
 }
