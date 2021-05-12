@@ -1,27 +1,23 @@
 const chokidar = require('chokidar')
 const rollup = require('rollup')
-const chalk = require('chalk')
 const postcss = require('postcss')
 const fse = require('fs-extra')
 const {renderSync} = require('dart-sass')
 const px2rpx = require('postcss-pxtorpx-pro')
 const deepmerge = require('deepmerge');
-const {trace, logger, projectConfig} = require('./utils')
-
-const NODE_ENV = process.env.NODE_ENV
+import {logger, trace, watchPaths, env} from './utils'
 
 const build = async (file) => {
   trace.start(file)
   if (/\.ts$/.test(file)) {
     const outputFile = file
-      .replace(/^packages/, 'dist')
+      .replace(/^src/, 'dist')
       .replace(/\.ts$/, '.js')
-    logger(
-      chalk.yellow('编译'),
-      file.replace(/^packages\//, ''),
+    logger.build(
+      file.replace(/^src\//, ''),
     )
     const bundle = await rollup.rollup({
-      ...(require(`../rollup.config.${NODE_ENV}`)),
+      ...(require(`./rollup.config.${env}`)),
       input: file,
     })
     await bundle.write({
@@ -29,20 +25,18 @@ const build = async (file) => {
       exports: 'named',
       format: 'cjs',
     })
-    logger(
-      chalk.green('生成'),
+    logger.create(
       outputFile.replace(/^dist\//, ''),
       trace.end(file)
     )
     return
   }
   if (/\.scss$/.test(file)) {
-    logger(
-      chalk.yellow('编译'),
-      file.replace(/^packages\//, ''),
+    logger.build(
+      file.replace(/^src\//, ''),
     )
     const outputFile = file
-      .replace(/^packages/, 'dist')
+      .replace(/^src/, 'dist')
       .replace(/\.scss$/, '.wxss')
     const {css} = renderSync({
       file,
@@ -63,15 +57,14 @@ const build = async (file) => {
         from: undefined
       })
     await fse.writeFile(outputFile, wxss, () => {})
-    logger(
-      chalk.green('生成'),
+    logger.create(
       outputFile.replace(/^dist\//, ''),
       trace.end(file),
     )
     return
   }
   if (/project.config.json$/.test(file)) {
-    const outputFile = file.replace(/^packages/, 'dist')
+    const outputFile = file.replace(/^src/, 'dist')
     const outputDir = outputFile.replace('project.config.json', '')
     if (!fse.existsSync(outputDir)) {
       await fse.mkdirp(outputDir)
@@ -84,19 +77,16 @@ const build = async (file) => {
       }
     })
     await fse.writeFile(outputFile, JSON.stringify(data, null, 2))
-    logger(
-      chalk.green('生成'),
-      outputFile.replace(/^dist\//, ''),
+    logger.create(
+      file.replace(/^src\//, ''),
       trace.end(file),
     )
     return
   }
 
-  trace.start(file)
-  await fse.copy(file, file.replace(/^packages/, 'dist'))
-  logger(
-    '拷贝',
-    file.replace(/^packages\//, ''),
+  await fse.copy(file, file.replace(/^src/, 'dist'))
+  logger.copy(
+    file.replace(/^src\//, ''),
     trace.end(file),
   )
 }
@@ -104,6 +94,7 @@ const build = async (file) => {
 const run = () => {
   return Promise.resolve()
 }
+
 const removeDist = () => {
   return fse.remove('dist')
 }
@@ -111,13 +102,13 @@ const removeDist = () => {
 (() => {
   run()
     .then(() => {
-      if (NODE_ENV === 'prod') {
-        removeDist()
+      if (env === 'prod') {
+        return removeDist()
       }
     })
     .then(() => {
       const watcher = chokidar
-        .watch(projectConfig.watchDir, {
+        .watch(watchPaths, {
           ignored: [
             '**/.DS_Store',
             '**/.gitkeep'
@@ -133,7 +124,6 @@ const removeDist = () => {
       })
 
       watcher.on('ready', () => {
-        console.log('ready')
       })
   })
 })()
