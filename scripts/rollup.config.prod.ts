@@ -2,9 +2,10 @@ const {terser} = require('rollup-plugin-terser');
 const {babel} = require('@rollup/plugin-babel');
 const replace = require('@rollup/plugin-replace');
 const strip = require('@rollup/plugin-strip');
-import {env} from './utils';
+import {env} from './config';
 
-module.exports = {
+export default {
+  treeshake: false,
   plugins: [
     replace({
       ...env,

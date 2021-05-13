@@ -1,7 +1,8 @@
 import chokidar from 'chokidar';
 import {existsSync, mkdirpSync, removeSync} from 'fs-extra';
-import {NODE_ENV, trace, watchPaths} from './utils';
+import {trace, watchPaths} from './utils';
 import * as builds from './build/index';
+import {NODE_ENV} from './config';
 
 const build = (file) => {
   trace.start(file);

@@ -1,11 +1,14 @@
 const rollup = require('rollup');
-import {logger, NODE_ENV, trace} from '../utils';
+import {logger, trace} from '../utils';
+import {isProd} from '../config';
+import prodConfig from '../rollup.config.prod';
+import devConfig from '../rollup.config.dev';
 
 export default (inputFile, outputFile) => {
   (async () => {
     logger.build(''.padEnd(6), inputFile);
     const bundle = await rollup.rollup({
-      ...require(`../rollup.config.${NODE_ENV}`),
+      ...(isProd ? prodConfig : devConfig),
       input: inputFile,
     });
     await bundle.write({

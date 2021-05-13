@@ -1,8 +1,9 @@
 const {babel} = require('@rollup/plugin-babel');
 const replace = require('@rollup/plugin-replace');
-import {env} from './utils';
+import {env} from './config';
 
-module.exports = {
+export default {
+  treeshake: false,
   plugins: [
     replace({
       ...env,
