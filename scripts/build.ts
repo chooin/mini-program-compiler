@@ -1,6 +1,6 @@
 import chokidar from 'chokidar';
-import {existsSync, mkdirpSync, removeSync, lstatSync} from 'fs-extra';
-import {trace, watchPaths} from './utils';
+import {existsSync, mkdirpSync, removeSync} from 'fs-extra';
+import {watchPaths} from './utils';
 import * as builds from './build/index';
 import {isProd} from './config';
 
@@ -36,22 +36,19 @@ const build = (file) => {
     mkdirpSync(outputDir);
   }
   if (/\.ts$/.test(inputFile)) {
-    trace.start(inputFile);
     builds.typescript(inputFile, outputFile);
     return;
   }
   if (/\.scss$/.test(inputFile)) {
-    trace.start(inputFile);
     builds.scss(inputFile, outputFile);
     return;
   }
   if (/project.config.json$/.test(inputFile)) {
-    trace.start(inputFile);
     builds.projectConfigJson(inputFile, outputFile);
     return;
   }
-  trace.start(inputFile);
   builds.copy(inputFile, outputFile);
+  return;
 };
 
 (() => {
@@ -64,17 +61,14 @@ const build = (file) => {
     .on('change', build)
     .on('unlink', (file) => {
       const {inputFile, outputFile} = getFile(file);
-      trace.start(inputFile);
       builds.remove(inputFile, outputFile);
     })
     .on('addDir', (file) => {
       const {inputDir, outputDir} = getFile(file);
-      trace.start(inputDir);
       builds.addDir(inputDir, outputDir);
     })
     .on('unlinkDir', (file) => {
       const {inputDir, outputDir} = getFile(file);
-      trace.start(inputDir);
       builds.removeDir(inputDir, outputDir);
     })
     .on('ready', () => {

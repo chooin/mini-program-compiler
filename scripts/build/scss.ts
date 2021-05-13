@@ -5,6 +5,7 @@ const px2rpx = require('postcss-pxtorpx-pro');
 import {logger, trace} from '../utils';
 
 export default (inputFile, outputFile) => {
+  trace.start(inputFile);
   logger.build(''.padEnd(6), inputFile);
   const {css} = renderSync({
     file: inputFile,

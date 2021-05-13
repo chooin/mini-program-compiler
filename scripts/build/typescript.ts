@@ -5,6 +5,7 @@ import prodConfig from '../rollup.config.prod';
 import devConfig from '../rollup.config.dev';
 
 export default (inputFile, outputFile) => {
+  trace.start(inputFile);
   (async () => {
     logger.build(''.padEnd(6), inputFile);
     const bundle = await rollup.rollup({
