@@ -2,7 +2,7 @@ import chokidar from 'chokidar';
 import {existsSync, mkdirpSync, removeSync} from 'fs-extra';
 import {trace, watchPaths} from './utils';
 import * as builds from './build/index';
-import {NODE_ENV} from './config';
+import {isProd} from './config';
 
 const build = (file) => {
   trace.start(file);
@@ -38,7 +38,7 @@ const build = (file) => {
     .on('add', build)
     .on('change', build)
     .on('ready', () => {
-      if (NODE_ENV === 'prod') {
+      if (isProd) {
         return watcher.close();
       }
     });

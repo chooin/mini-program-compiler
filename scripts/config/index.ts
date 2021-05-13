@@ -1,11 +1,10 @@
 import dotenv from 'dotenv';
 
-export const NODE_ENV = process.env.NODE_ENV;
+const config = dotenv.config({
+  path: process.env.DOTENV,
+}).parsed;
 
 export const env = (() => {
-  const config = dotenv.config({
-    path: `.env.${NODE_ENV}`,
-  }).parsed;
   const env = Object.create({});
   Object.keys(config).forEach((key) => {
     env[`process.env.${key}`] =
@@ -14,4 +13,5 @@ export const env = (() => {
   return env;
 })();
 
-export const isProd = process.env.NODE_ENV === 'prod';
+export const isProd =
+  typeof config.DEBUG !== 'undefined' && JSON.parse(config.DEBUG) === false;
