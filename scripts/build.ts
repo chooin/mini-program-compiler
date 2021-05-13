@@ -43,7 +43,7 @@ const build = async (file) => {
       file,
     })
     if (!fse.existsSync(outputDir)) {
-      await fse.mkdirp(outputDir)
+      fse.makeDirSync(outputDir)
     }
     const {css: wxss} = await postcss()
       .use(
@@ -56,7 +56,7 @@ const build = async (file) => {
         map: false,
         from: undefined
       })
-    await fse.writeFile(outputFile, wxss, () => {})
+    await fse.writeFile(outputFile, wxss)
     logger.create(
       outputFile.replace(/^dist\//, ''),
       trace.end(file),
@@ -92,15 +92,11 @@ const run = () => {
   return Promise.resolve()
 }
 
-const removeDist = () => {
-  return fse.remove('dist')
-}
-
 (() => {
   run()
     .then(() => {
       if (NODE_ENV === 'prod') {
-        return removeDist()
+        return fse.remove('dist')
       }
     })
     .then(() => {
@@ -118,9 +114,6 @@ const removeDist = () => {
 
       watcher.on('change',(file) => {
         return build(file)
-      })
-
-      watcher.on('ready', () => {
       })
   })
 })()

@@ -6,6 +6,6 @@
     "esModuleInterop": true,
   },
   "include": [
-    "global.d.ts"
+    "typings/global.d.ts"
   ]
 }
