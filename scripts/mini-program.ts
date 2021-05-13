@@ -1,2 +1,1 @@
-import ci from 'miniprogram-ci'
-
+import ci from 'miniprogram-ci';

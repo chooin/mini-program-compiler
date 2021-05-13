@@ -1,25 +1,18 @@
-const {terser} = require('rollup-plugin-terser');
-const {babel} = require('@rollup/plugin-babel');
-const replace = require('@rollup/plugin-replace');
+import esbuild from 'rollup-plugin-esbuild';
 const strip = require('@rollup/plugin-strip');
-import {env} from './config';
+import {env as define} from './config';
 
 export default {
-  treeshake: false,
+  treeshake: true,
   plugins: [
-    replace({
-      ...env,
-      preventAssignment: true,
-    }),
     strip({
       include: '**/*.(js|ts)',
       functions: ['console.*'],
     }),
-    babel({
-      extensions: ['.js', '.ts'],
-      babelHelpers: 'bundled',
+    esbuild({
       exclude: ['node_modules/**'],
+      minify: true,
+      define,
     }),
-    terser(),
   ],
 };

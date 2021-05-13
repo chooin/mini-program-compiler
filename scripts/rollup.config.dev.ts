@@ -1,18 +1,13 @@
-const {babel} = require('@rollup/plugin-babel');
-const replace = require('@rollup/plugin-replace');
-import {env} from './config';
+import esbuild from 'rollup-plugin-esbuild';
+import {env as define} from './config';
 
 export default {
   treeshake: false,
   plugins: [
-    replace({
-      ...env,
-      preventAssignment: true,
-    }),
-    babel({
-      extensions: ['.js', '.ts'],
-      babelHelpers: 'bundled',
+    esbuild({
       exclude: ['node_modules/**'],
+      minify: false,
+      define,
     }),
   ],
 };
