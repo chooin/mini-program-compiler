@@ -3622,10 +3622,10 @@ fast-diff@^1.1.2:
   resolved "https://registry.npmjs.org/fast-diff/-/fast-diff-1.2.0.tgz#73ee11982d86caaf7959828d519cfe927fac5f03"
   integrity sha512-xJuoT5+L99XlZ8twedaRf6Ax2TgQVxvgZOYoPKqZufmJib0tL2tegPBOZb1pVNgIhlqDlA0eO0c3wBvQcmzx4w==
 
-fast-files@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/fast-files/-/fast-files-1.0.1.tgz#07b6d1ae2009eb4a5663a811517711f1c9aa14ab"
-  integrity sha512-zSFYLvDltyzuz9UUHOk7UieM05YGdwuBljvuvbJxUCZF1TepKmqHjD3AbctZ0RzmZbiYoRG3otFLKhAXkvFYtA==
+fast-files@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/fast-files/-/fast-files-1.0.3.tgz#492abc9dc5343266bafee615e178e0f1f70cc720"
+  integrity sha512-TwHNuRobifE9mCrOsX+h9C5Y2cmPaqsZsQvHpjU9wXWuqSEt6QzzzG4E4kHfD+UBJyUL7J5Wtad/0iiAjof0kA==
   dependencies:
     lodash "^4.17.21"
 

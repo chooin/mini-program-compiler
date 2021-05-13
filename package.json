@@ -21,7 +21,7 @@
     "dotenv": "^9.0.2",
     "eslint": "^7.26.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "fast-files": "^1.0.1",
+    "fast-files": "^1.0.3",
     "fs-extra": "^10.0.0",
     "husky": "^6.0.0",
     "kleur": "^4.1.4",
