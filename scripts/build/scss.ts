@@ -1,6 +1,6 @@
 const {renderSync} = require('dart-sass');
 import postcss from 'postcss';
-import {writeFileSync} from 'fs-extra';
+import {writeFile} from 'fs-extra';
 const px2rpx = require('postcss-pxtorpx-pro');
 import {logger, trace} from '../utils';
 
@@ -21,7 +21,8 @@ export default (inputFile, outputFile) => {
         map: false,
         from: undefined,
       });
-    writeFileSync(outputFile, wxss);
-    return logger.create(trace.end(inputFile), `${inputFile} -> ${outputFile}`);
+    writeFile(outputFile, wxss).then(() => {
+      logger.create(trace.end(inputFile), `${inputFile} -> ${outputFile}`);
+    });
   })();
 };
