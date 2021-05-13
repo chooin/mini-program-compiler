@@ -25,7 +25,7 @@ const build = async (file) => {
     mkdirpSync(outputDir);
   }
   if (/\.ts$/.test(file)) {
-    logger.build(file.replace(/^src\//, ''));
+    logger.build(''.padEnd(6), file);
     outputFile = file.replace(/\.ts$/, '.js');
     const bundle = await rollup.rollup({
       ...require(`./rollup.config.${NODE_ENV}`),
@@ -36,11 +36,11 @@ const build = async (file) => {
       exports: 'named',
       format: 'cjs',
     });
-    logger.create(outputFile.replace(/^dist\//, ''), trace.end(file));
+    logger.create(trace.end(file), `${file} -> ${outputFile}`);
     return;
   }
   if (/\.scss$/.test(file)) {
-    logger.build(file.replace(/^src\//, ''));
+    logger.build(''.padEnd(6), file);
     outputFile = file.replace(/\.scss$/, '.wxss');
     const {css} = renderSync({
       file,
@@ -57,10 +57,11 @@ const build = async (file) => {
         from: undefined,
       });
     writeFileSync(outputFile, wxss);
-    logger.create(outputFile.replace(/^dist\//, ''), trace.end(file));
+    logger.create(trace.end(file), `${file} -> ${outputFile}`);
     return;
   }
   if (/project.config.json$/.test(file)) {
+    logger.build(''.padEnd(6), file);
     json()
       .readFile(file)
       .merge({
@@ -70,41 +71,27 @@ const build = async (file) => {
         },
       })
       .saveFile(outputFile);
-    logger.create(file.replace(/^src\//, ''), trace.end(file));
+    logger.create(trace.end(file), `${file} -> ${outputFile}`);
     return;
   }
-
   copyFileSync(file, outputFile);
-  logger.copy(file.replace(/^src\//, ''), trace.end(file));
-};
-
-const run = () => {
-  return Promise.resolve();
+  logger.copy(trace.end(file), `${file} -> ${outputFile}`);
 };
 
 (() => {
-  run()
-    .then(() => {
-      if (NODE_ENV === 'prod') {
-        removeSync('dist');
-      }
-    })
-    .then(() => {
-      const watcher = chokidar.watch(watchPaths, {
-        ignored: ['**/.DS_Store', '**/.gitkeep'],
-      });
+  if (NODE_ENV === 'prod') {
+    removeSync('dist');
+  }
+  const watcher = chokidar.watch(watchPaths, {
+    ignored: ['**/.DS_Store', '**/.gitkeep'],
+  });
 
-      watcher
-        .on('add', (file) => {
-          return build(file);
-        })
-        .on('change', (file) => {
-          return build(file);
-        })
-        .on('ready', () => {
-          if (NODE_ENV === 'prod') {
-            return watcher.close();
-          }
-        });
+  watcher
+    .on('add', build)
+    .on('change', build)
+    .on('ready', () => {
+      if (NODE_ENV === 'prod') {
+        return watcher.close();
+      }
     });
 })();
