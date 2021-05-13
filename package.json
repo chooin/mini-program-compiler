@@ -38,6 +38,9 @@
   "dependencies": {},
   "license": "MIT",
   "lint-staged": {
-    "**/*.{js,ts}": "git add"
+    "**/*.{js,ts}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
