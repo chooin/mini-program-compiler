@@ -1,19 +1,24 @@
-const common = require('./rollup.config.common');
-const strip = require('@rollup/plugin-strip');
 const {terser} = require('rollup-plugin-terser');
-
-const plugins = [
-  strip({
-    include: '**/*.(js|ts)',
-    functions: [
-      'console.*'
-    ]
-  }),
-  terser(),
-];
+const {babel} = require('@rollup/plugin-babel');
+const replace = require('@rollup/plugin-replace');
+const strip = require('@rollup/plugin-strip');
+import {env} from './utils';
 
 module.exports = {
-  plugins: common
-    .plugins
-    .concat(plugins),
-}
+  plugins: [
+    replace({
+      ...env,
+      preventAssignment: true,
+    }),
+    strip({
+      include: '**/*.(js|ts)',
+      functions: ['console.*'],
+    }),
+    babel({
+      extensions: ['.js', '.ts'],
+      babelHelpers: 'bundled',
+      exclude: ['node_modules/**'],
+    }),
+    terser(),
+  ],
+};
