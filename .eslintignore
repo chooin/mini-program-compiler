@@ -1,5 +1,5 @@
-.husky/*
-dist/*
-node_modules/*
-scripts/*
+dist
+node_modules
+scripts
+.husky
 .eslintrc.js

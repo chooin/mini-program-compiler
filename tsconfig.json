@@ -5,5 +5,5 @@
     "lib": ["ESNext"],
     "esModuleInterop": true
   },
-  "include": ["typings/global.d.ts"]
+  "include": ["typings/index.d.ts"]
 }
