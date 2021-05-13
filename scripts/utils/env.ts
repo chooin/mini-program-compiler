@@ -8,7 +8,9 @@ export const env = (() => {
   }).parsed
   const env = Object.create({})
   Object.keys(config).forEach((key) => {
-    env[`process.env.${key}`] = config[key]
+    env[`process.env.${key}`] = typeof config[key] === 'string'
+      ? `'${config[key]}'`
+      : config[key]
   })
   return env
 })()
