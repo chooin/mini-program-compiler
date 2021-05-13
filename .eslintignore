@@ -1,0 +1,6 @@
+.husky/*
+dist/*
+node_modules/*
+scripts/*
+.eslintrc.js
+.eslintrc.js
