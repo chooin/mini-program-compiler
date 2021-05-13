@@ -3,6 +3,6 @@ import {logger, trace} from '../utils';
 
 export default (inputDir, outputDir) => {
   remove(outputDir).then(() => {
-    logger.remove(trace.end(inputDir), `${inputDir} -> ${outputDir}`);
+    logger.remove(trace.end(inputDir), outputDir);
   });
 };

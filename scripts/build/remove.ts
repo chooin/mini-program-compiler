@@ -3,6 +3,6 @@ import {logger, trace} from '../utils';
 
 export default (inputFile, outputFile) => {
   unlink(outputFile).then(() => {
-    logger.remove(trace.end(inputFile), `${inputFile} -> ${outputFile}`);
+    logger.remove(trace.end(inputFile), outputFile);
   });
 };

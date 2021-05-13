@@ -31,20 +31,26 @@ const getFile = (file) => {
 };
 
 const build = (file) => {
-  trace.start(file);
   const {inputFile, outputFile, outputDir} = getFile(file);
   if (!existsSync(outputDir)) {
     mkdirpSync(outputDir);
   }
-  if (/\.ts$/.test(file)) {
+  if (/\.ts$/.test(inputFile)) {
+    trace.start(inputFile);
     builds.typescript(inputFile, outputFile);
+    return;
   }
   if (/\.scss$/.test(inputFile)) {
-    builds.scss(file, outputFile);
+    trace.start(inputFile);
+    builds.scss(inputFile, outputFile);
+    return;
   }
-  if (/project.config.json$/.test(file)) {
+  if (/project.config.json$/.test(inputFile)) {
+    trace.start(inputFile);
     builds.projectConfigJson(inputFile, outputFile);
+    return;
   }
+  trace.start(inputFile);
   builds.copy(inputFile, outputFile);
 };
 
@@ -57,18 +63,18 @@ const build = (file) => {
     .on('add', build)
     .on('change', build)
     .on('unlink', (file) => {
-      trace.start(file);
       const {inputFile, outputFile} = getFile(file);
+      trace.start(inputFile);
       builds.remove(inputFile, outputFile);
     })
     .on('addDir', (file) => {
-      trace.start(file);
       const {inputDir, outputDir} = getFile(file);
+      trace.start(inputDir);
       builds.addDir(inputDir, outputDir);
     })
     .on('unlinkDir', (file) => {
-      trace.start(file);
       const {inputDir, outputDir} = getFile(file);
+      trace.start(inputDir);
       builds.removeDir(inputDir, outputDir);
     })
     .on('ready', () => {
