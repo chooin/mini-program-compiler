@@ -1,19 +1,9 @@
-const {renderSync} = require('dart-sass');
-const rollup = require('rollup');
-const px2rpx = require('postcss-pxtorpx-pro');
-import {
-  existsSync,
-  mkdirpSync,
-  writeFileSync,
-  copyFileSync,
-  removeSync,
-} from 'fs-extra';
-import {logger, trace, watchPaths, NODE_ENV} from './utils';
-import postcss from 'postcss';
 import chokidar from 'chokidar';
-import {json} from 'fast-files';
+import {existsSync, mkdirpSync, removeSync} from 'fs-extra';
+import {NODE_ENV, trace, watchPaths} from './utils';
+import * as builds from './build/index';
 
-const build = async (file) => {
+const build = (file) => {
   trace.start(file);
   const outputDir = file
     .replace(/^src/, 'dist')
@@ -25,57 +15,17 @@ const build = async (file) => {
     mkdirpSync(outputDir);
   }
   if (/\.ts$/.test(file)) {
-    logger.build(''.padEnd(6), file);
     outputFile = outputFile.replace(/\.ts$/, '.js');
-    const bundle = await rollup.rollup({
-      ...require(`./rollup.config.${NODE_ENV}`),
-      input: file,
-    });
-    await bundle.write({
-      file: outputFile,
-      exports: 'named',
-      format: 'cjs',
-    });
-    logger.create(trace.end(file), `${file} -> ${outputFile}`);
-    return;
+    builds.typescript(file, outputFile);
   }
   if (/\.scss$/.test(file)) {
-    logger.build(''.padEnd(6), file);
     outputFile = outputFile.replace(/\.scss$/, '.wxss');
-    const {css} = renderSync({
-      file,
-    });
-    const {css: wxss} = await postcss()
-      .use(
-        px2rpx({
-          minPixelValue: 2,
-          transform: (x) => x,
-        }),
-      )
-      .process(css, {
-        map: false,
-        from: undefined,
-      });
-    writeFileSync(outputFile, wxss);
-    logger.create(trace.end(file), `${file} -> ${outputFile}`);
-    return;
+    builds.scss(file, outputFile);
   }
   if (/project.config.json$/.test(file)) {
-    logger.build(''.padEnd(6), file);
-    json()
-      .readFile(file)
-      .merge({
-        setting: {
-          enhance: true,
-          es6: true,
-        },
-      })
-      .saveFile(outputFile);
-    logger.create(trace.end(file), `${file} -> ${outputFile}`);
-    return;
+    builds.projectConfigJson(file, outputFile);
   }
-  copyFileSync(file, outputFile);
-  logger.copy(trace.end(file), `${file} -> ${outputFile}`);
+  builds.copy(file, outputFile);
 };
 
 (() => {
