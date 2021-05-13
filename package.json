@@ -38,8 +38,6 @@
   "dependencies": {},
   "license": "MIT",
   "lint-staged": {
-    "**/*.{js,ts}": [
-      "git add"
-    ]
+    "**/*.{js,ts}": "git add"
   }
 }
