@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "preinstall": "node scripts/check-yarn.js",
     "start": "NODE_ENV=dev ts-node scripts/build.ts",
     "build": "NODE_ENV=prod ts-node scripts/build.ts",
     "lint": "eslint ."
