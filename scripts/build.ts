@@ -15,9 +15,18 @@ import {json} from 'fast-files';
 
 const build = async (file) => {
   trace.start(file);
+  const outputDir = file
+    .split('/')
+    .slice(0, -1)
+    .join('/')
+    .replace(/^src/, 'dist');
+  let outputFile = file.replace(/^src/, 'dist');
+  if (!existsSync(outputDir)) {
+    mkdirpSync(outputDir);
+  }
   if (/\.ts$/.test(file)) {
-    const outputFile = file.replace(/^src/, 'dist').replace(/\.ts$/, '.js');
     logger.build(file.replace(/^src\//, ''));
+    outputFile = file.replace(/\.ts$/, '.js');
     const bundle = await rollup.rollup({
       ...require(`./rollup.config.${NODE_ENV}`),
       input: file,
@@ -32,14 +41,10 @@ const build = async (file) => {
   }
   if (/\.scss$/.test(file)) {
     logger.build(file.replace(/^src\//, ''));
-    const outputFile = file.replace(/^src/, 'dist').replace(/\.scss$/, '.wxss');
-    const outputDir = outputFile.split('/').slice(0, -1).join('/');
+    outputFile = file.replace(/\.scss$/, '.wxss');
     const {css} = renderSync({
       file,
     });
-    if (!existsSync(outputDir)) {
-      mkdirpSync(outputDir);
-    }
     const {css: wxss} = await postcss()
       .use(
         px2rpx({
@@ -56,7 +61,6 @@ const build = async (file) => {
     return;
   }
   if (/project.config.json$/.test(file)) {
-    const outputFile = file.replace(/^src/, 'dist');
     json()
       .readFile(file)
       .merge({
@@ -70,7 +74,7 @@ const build = async (file) => {
     return;
   }
 
-  copyFileSync(file, file.replace(/^src/, 'dist'));
+  copyFileSync(file, outputFile);
   logger.copy(file.replace(/^src\//, ''), trace.end(file));
 };
 
@@ -90,14 +94,17 @@ const run = () => {
         ignored: ['**/.DS_Store', '**/.gitkeep'],
       });
 
-      watcher.on('add', (file) => {
-        return build(file);
-      });
-
-      watcher.on('change', (file) => {
-        return build(file);
-      });
-
-      watcher.on('ready', () => {});
+      watcher
+        .on('add', (file) => {
+          return build(file);
+        })
+        .on('change', (file) => {
+          return build(file);
+        })
+        .on('ready', () => {
+          if (NODE_ENV === 'prod') {
+            return watcher.close();
+          }
+        });
     });
 })();
