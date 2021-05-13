@@ -4,10 +4,6 @@ import {trace, watchPaths} from './utils';
 import * as builds from './build/index';
 import {isProd} from './config';
 
-const getInputFile = (file) => {
-  return file;
-};
-
 const getFile = (file) => {
   if (file.indexOf('.') > -1) {
     const inputFile = file;
@@ -26,7 +22,6 @@ const getFile = (file) => {
       .split('/')
       .slice(0, -1)
       .join('/');
-
     return {inputFile, outputFile, inputDir, outputDir};
   } else {
     const inputDir = file;
