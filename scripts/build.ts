@@ -30,9 +30,7 @@ const build = (file) => {
 };
 
 (() => {
-  if (NODE_ENV === 'prod') {
-    removeSync('dist');
-  }
+  removeSync('dist');
   const watcher = chokidar.watch(watchPaths, {
     ignored: ['**/.DS_Store', '**/.gitkeep'],
   });

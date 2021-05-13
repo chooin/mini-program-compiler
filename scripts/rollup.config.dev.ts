@@ -7,6 +7,7 @@ export default {
     esbuild({
       exclude: ['node_modules/**'],
       minify: false,
+      sourceMap: true,
       define,
     }),
   ],
