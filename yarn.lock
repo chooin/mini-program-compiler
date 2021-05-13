@@ -1478,6 +1478,13 @@
   resolved "https://registry.npmjs.org/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
   integrity sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==
 
+"@types/fs-extra@^9.0.11":
+  version "9.0.11"
+  resolved "https://registry.npmjs.org/@types/fs-extra/-/fs-extra-9.0.11.tgz#8cc99e103499eab9f347dbc6ca4e99fb8d2c2b87"
+  integrity sha512-mZsifGG4QeQ7hlkhO56u7zt/ycBgGxSVsFI/6lGTU34VtwkiqrrSDgw0+ygs8kFGWcXnFQWMrzF2h7TtDFNixA==
+  dependencies:
+    "@types/node" "*"
+
 "@types/json-schema@^7.0.3":
   version "7.0.7"
   resolved "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.7.tgz#98a993516c859eb0d5c4c8f098317a9ea68db9ad"
@@ -3622,11 +3629,12 @@ fast-diff@^1.1.2:
   resolved "https://registry.npmjs.org/fast-diff/-/fast-diff-1.2.0.tgz#73ee11982d86caaf7959828d519cfe927fac5f03"
   integrity sha512-xJuoT5+L99XlZ8twedaRf6Ax2TgQVxvgZOYoPKqZufmJib0tL2tegPBOZb1pVNgIhlqDlA0eO0c3wBvQcmzx4w==
 
-fast-files@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.npmjs.org/fast-files/-/fast-files-1.0.3.tgz#492abc9dc5343266bafee615e178e0f1f70cc720"
-  integrity sha512-TwHNuRobifE9mCrOsX+h9C5Y2cmPaqsZsQvHpjU9wXWuqSEt6QzzzG4E4kHfD+UBJyUL7J5Wtad/0iiAjof0kA==
+fast-files@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.npmjs.org/fast-files/-/fast-files-1.0.4.tgz#37691d5f84c966de1ff8a0148ea2afbfc767b0bf"
+  integrity sha512-TEqF029c5gj3bQzvlTXA/j4CumyxEpKlPIPP/mhvOCjGR79NoojLsl3VweJZHpzwtRZa+HpyYNFV/LMlC4zP0Q==
   dependencies:
+    fs-extra "^10.0.0"
     lodash "^4.17.21"
 
 fast-glob@^3.1.1:

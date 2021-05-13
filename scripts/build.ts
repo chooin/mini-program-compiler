@@ -1,10 +1,16 @@
-const chokidar = require('chokidar');
-const rollup = require('rollup');
-const postcss = require('postcss');
-const fse = require('fs-extra');
 const {renderSync} = require('dart-sass');
+const rollup = require('rollup');
 const px2rpx = require('postcss-pxtorpx-pro');
+import {
+  existsSync,
+  mkdirpSync,
+  writeFileSync,
+  copyFileSync,
+  removeSync,
+} from 'fs-extra';
 import {logger, trace, watchPaths, NODE_ENV} from './utils';
+import postcss from 'postcss';
+import chokidar from 'chokidar';
 import {json} from 'fast-files';
 
 const build = async (file) => {
@@ -27,12 +33,12 @@ const build = async (file) => {
   if (/\.scss$/.test(file)) {
     logger.build(file.replace(/^src\//, ''));
     const outputFile = file.replace(/^src/, 'dist').replace(/\.scss$/, '.wxss');
-    const outputDir = outputFile.replace(/\/[\w-_]+.wxss/, '');
+    const outputDir = outputFile.split('/').slice(0, -1).join('/');
     const {css} = renderSync({
       file,
     });
-    if (!fse.existsSync(outputDir)) {
-      await fse.mkdirp(outputDir);
+    if (!existsSync(outputDir)) {
+      mkdirpSync(outputDir);
     }
     const {css: wxss} = await postcss()
       .use(
@@ -45,7 +51,7 @@ const build = async (file) => {
         map: false,
         from: undefined,
       });
-    await fse.writeFile(outputFile, wxss, () => {});
+    writeFileSync(outputFile, wxss);
     logger.create(outputFile.replace(/^dist\//, ''), trace.end(file));
     return;
   }
@@ -64,7 +70,7 @@ const build = async (file) => {
     return;
   }
 
-  await fse.copy(file, file.replace(/^src/, 'dist'));
+  copyFileSync(file, file.replace(/^src/, 'dist'));
   logger.copy(file.replace(/^src\//, ''), trace.end(file));
 };
 
@@ -72,15 +78,11 @@ const run = () => {
   return Promise.resolve();
 };
 
-const removeDist = () => {
-  return fse.remove('dist');
-};
-
 (() => {
   run()
     .then(() => {
       if (NODE_ENV === 'prod') {
-        return removeDist();
+        removeSync('dist');
       }
     })
     .then(() => {
