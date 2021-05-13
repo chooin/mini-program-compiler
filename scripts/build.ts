@@ -16,17 +16,17 @@ import {json} from 'fast-files';
 const build = async (file) => {
   trace.start(file);
   const outputDir = file
+    .replace(/^src/, 'dist')
     .split('/')
     .slice(0, -1)
-    .join('/')
-    .replace(/^src/, 'dist');
+    .join('/');
   let outputFile = file.replace(/^src/, 'dist');
   if (!existsSync(outputDir)) {
     mkdirpSync(outputDir);
   }
   if (/\.ts$/.test(file)) {
     logger.build(''.padEnd(6), file);
-    outputFile = file.replace(/\.ts$/, '.js');
+    outputFile = outputFile.replace(/\.ts$/, '.js');
     const bundle = await rollup.rollup({
       ...require(`./rollup.config.${NODE_ENV}`),
       input: file,
@@ -41,7 +41,7 @@ const build = async (file) => {
   }
   if (/\.scss$/.test(file)) {
     logger.build(''.padEnd(6), file);
-    outputFile = file.replace(/\.scss$/, '.wxss');
+    outputFile = outputFile.replace(/\.scss$/, '.wxss');
     const {css} = renderSync({
       file,
     });
@@ -85,7 +85,6 @@ const build = async (file) => {
   const watcher = chokidar.watch(watchPaths, {
     ignored: ['**/.DS_Store', '**/.gitkeep'],
   });
-
   watcher
     .on('add', build)
     .on('change', build)
