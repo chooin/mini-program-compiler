@@ -1,38 +1,37 @@
 import chokidar from 'chokidar';
-import {removeSync} from 'fs-extra';
 import {watchPaths} from './utils';
-import * as builds from './build/index';
+import * as build from './build/index';
 import {isProd} from './config';
 
-const build = (path) => {
+const bundle = (path) => {
   if (/\.ts$/.test(path)) {
-    return builds.typescript(path);
+    return build.typescript(path);
   }
   if (/\.scss$/.test(path)) {
-    return builds.scss(path);
+    return build.scss(path);
   }
   if (/project.config.json$/.test(path)) {
-    return builds.projectConfigJson(path);
+    return build.projectConfigJson(path);
   }
-  return builds.copy(path);
+  return build.copy(path);
 };
 
 (() => {
-  removeSync('dist');
+  build.clearCache();
   const watcher = chokidar.watch(watchPaths, {
     ignored: ['**/.DS_Store', '**/.gitkeep'],
   });
   watcher
-    .on('add', build)
-    .on('change', build)
+    .on('add', bundle)
+    .on('change', bundle)
     .on('unlink', (path) => {
-      builds.remove(path);
+      build.remove(path);
     })
     .on('addDir', (path) => {
-      builds.addDir(path);
+      build.addDir(path);
     })
     .on('unlinkDir', (path) => {
-      builds.removeDir(path);
+      build.removeDir(path);
     })
     .on('ready', () => {
       if (isProd) {

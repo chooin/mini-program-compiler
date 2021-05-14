@@ -3,7 +3,8 @@
     "baseUrl": ".",
     "target": "ES2017",
     "lib": ["ESNext"],
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "moduleResolution": "node",
   },
   "include": ["typings/index.d.ts"]
 }
