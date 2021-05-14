@@ -1,12 +1,9 @@
-import {existsSync, mkdirpSync, unlink} from 'fs-extra';
+import {unlink} from 'fs-extra';
 import {file, logger, trace} from '../utils';
 
 export default (path) => {
   trace.start(path);
-  const {inputFile, outputFile, outputDir} = file.path(path);
-  if (!existsSync(outputDir)) {
-    mkdirpSync(outputDir);
-  }
+  const {inputFile, outputFile} = file.path(path);
   unlink(outputFile).then(() => {
     logger.remove(trace.end(inputFile), outputFile);
   });
