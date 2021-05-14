@@ -1,11 +1,17 @@
+import {existsSync, mkdirpSync} from 'fs-extra';
+
 const rollup = require('rollup');
-import {logger, trace} from '../utils';
+import {file, logger, trace} from '../utils';
 import {isProd} from '../config';
 import prodConfig from '../rollup.config.prod';
 import devConfig from '../rollup.config.dev';
 
-export default (inputFile, outputFile) => {
-  trace.start(inputFile);
+export default (path) => {
+  trace.start(path);
+  const {inputFile, outputFile, outputDir} = file.path(path);
+  if (!existsSync(outputDir)) {
+    mkdirpSync(outputDir);
+  }
   (async () => {
     logger.build(''.padEnd(6), inputFile);
     const bundle = await rollup.rollup({

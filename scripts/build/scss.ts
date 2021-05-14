@@ -1,11 +1,15 @@
 const {renderSync} = require('dart-sass');
 import postcss from 'postcss';
-import {writeFile} from 'fs-extra';
+import {existsSync, mkdirpSync, writeFile} from 'fs-extra';
 const px2rpx = require('postcss-pxtorpx-pro');
-import {logger, trace} from '../utils';
+import {file, logger, trace} from '../utils';
 
-export default (inputFile, outputFile) => {
-  trace.start(inputFile);
+export default (path) => {
+  trace.start(path);
+  const {inputFile, outputFile, outputDir} = file.path(path);
+  if (!existsSync(outputDir)) {
+    mkdirpSync(outputDir);
+  }
   logger.build(''.padEnd(6), inputFile);
   const {css} = renderSync({
     file: inputFile,

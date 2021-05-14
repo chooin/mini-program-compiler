@@ -1,8 +1,13 @@
-import {logger, trace} from '../utils';
+import {file, logger, trace} from '../utils';
 import {json} from 'fast-files';
+import {existsSync, mkdirpSync} from 'fs-extra';
 
-export default (inputFile, outputFile) => {
-  trace.start(inputFile);
+export default (path) => {
+  trace.start(path);
+  const {inputFile, outputFile, outputDir} = file.path(path);
+  if (!existsSync(outputDir)) {
+    mkdirpSync(outputDir);
+  }
   logger.build(''.padEnd(6), inputFile);
   json()
     .readFile(inputFile)
