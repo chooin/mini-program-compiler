@@ -7,7 +7,6 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@babel/cli": "^7.13.16",
     "@rollup/plugin-strip": "^2.0.1",
     "@types/fs-extra": "^9.0.11",
     "@types/node": "^15.0.3",
