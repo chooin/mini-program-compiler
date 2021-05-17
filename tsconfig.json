@@ -5,6 +5,20 @@
     "lib": ["ESNext"],
     "esModuleInterop": true,
     "moduleResolution": "node",
+    "sourceMap": true,
+    "module": "commonjs",
+    "allowJs": true,
+    "removeComments": true,
+    "paths": {
+      "@/*": ["./src/*"],
+    },
   },
-  "include": ["typings/index.d.ts"]
+  "exclude": [
+    "scripts/**",
+    "node_modules/**"
+  ],
+  "include": [
+    "typings/*.d.ts",
+    "src/**/*",
+  ],
 }

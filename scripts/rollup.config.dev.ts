@@ -5,9 +5,7 @@ export default {
   treeshake: false,
   plugins: [
     esbuild({
-      exclude: ['node_modules/**'],
       minify: false,
-      sourceMap: true,
       define,
     }),
   ],

@@ -1,5 +1,5 @@
 import esbuild from 'rollup-plugin-esbuild';
-const strip = require('@rollup/plugin-strip');
+import strip from '@rollup/plugin-strip';
 import {env as define} from './config';
 
 export default {
@@ -10,7 +10,6 @@ export default {
       functions: ['console.*'],
     }),
     esbuild({
-      exclude: ['node_modules/**'],
       minify: true,
       define,
     }),
