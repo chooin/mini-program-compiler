@@ -17,6 +17,8 @@ export default (path) => {
         es6: true,
       },
     })
-    .saveFile(outputFile);
+    .saveFile(outputFile, {
+      override: true,
+    });
   logger.create(trace.end(inputFile), `${inputFile} -> ${outputFile}`);
 };

@@ -1309,10 +1309,10 @@
   resolved "https://registry.npmjs.org/@types/node/-/node-14.14.41.tgz#d0b939d94c1d7bd53d04824af45f1139b8c45615"
   integrity sha512-dueRKfaJL4RTtSa7bWeTK1M+VH+Gns73oCgzvYfHZywRCoPSd8EkXBL0mZ9unPTveBn+D9phZBaxuzpwjWkW0g==
 
-"@types/node@^15.0.3":
-  version "15.0.3"
-  resolved "https://registry.npmjs.org/@types/node/-/node-15.0.3.tgz#ee09fcaac513576474c327da5818d421b98db88a"
-  integrity sha512-/WbxFeBU+0F79z9RdEOXH4CsDga+ibi5M8uEYr91u3CkT/pdWcV8MCook+4wDPnZBexRdwWS+PiVZ2xJviAzcQ==
+"@types/node@^15.3.0":
+  version "15.3.0"
+  resolved "https://registry.npmjs.org/@types/node/-/node-15.3.0.tgz#d6fed7d6bc6854306da3dea1af9f874b00783e26"
+  integrity sha512-8/bnjSZD86ZfpBsDlCIkNXIvm+h6wi9g7IqL+kmFkQ+Wvu3JrasgLElfiPgoo8V8vVfnEi0QVS12gbl94h9YsQ==
 
 "@types/q@^1.5.1":
   version "1.5.4"
@@ -3044,10 +3044,10 @@ es-to-primitive@^1.2.1:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
-esbuild@^0.11.20:
-  version "0.11.20"
-  resolved "https://registry.npmjs.org/esbuild/-/esbuild-0.11.20.tgz#7cefa1aee8b372c184e42457885f7ce5d3e62a1e"
-  integrity sha512-QOZrVpN/Yz74xfat0H6euSgn3RnwLevY1mJTEXneukz1ln9qB+ieaerRMzSeETpz/UJWsBMzRVR/andBht5WKw==
+esbuild@^0.11.23:
+  version "0.11.23"
+  resolved "https://registry.npmjs.org/esbuild/-/esbuild-0.11.23.tgz#c42534f632e165120671d64db67883634333b4b8"
+  integrity sha512-iaiZZ9vUF5wJV8ob1tl+5aJTrwDczlvGP0JoMmnpC2B0ppiMCu8n8gmy5ZTGl5bcG081XBVn+U+jP+mPFm5T5Q==
 
 escalade@^3.1.1:
   version "3.1.1"
@@ -3237,10 +3237,10 @@ fast-diff@^1.1.2:
   resolved "https://registry.npmjs.org/fast-diff/-/fast-diff-1.2.0.tgz#73ee11982d86caaf7959828d519cfe927fac5f03"
   integrity sha512-xJuoT5+L99XlZ8twedaRf6Ax2TgQVxvgZOYoPKqZufmJib0tL2tegPBOZb1pVNgIhlqDlA0eO0c3wBvQcmzx4w==
 
-fast-files@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.npmjs.org/fast-files/-/fast-files-1.0.4.tgz#37691d5f84c966de1ff8a0148ea2afbfc767b0bf"
-  integrity sha512-TEqF029c5gj3bQzvlTXA/j4CumyxEpKlPIPP/mhvOCjGR79NoojLsl3VweJZHpzwtRZa+HpyYNFV/LMlC4zP0Q==
+fast-files@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.npmjs.org/fast-files/-/fast-files-1.0.5.tgz#fd28a797881f3dd0e4084d062d5dc9c992d4f718"
+  integrity sha512-pvpBSoHofvrQJ42PgXd3ffpZuJ0GYjgGzxhjfFJH2z2vNb+TX7YmJdXWJvXxUmPWDoIVTCU9GBpZxaGoMfh6mA==
   dependencies:
     fs-extra "^10.0.0"
     lodash "^4.17.21"
@@ -5242,10 +5242,10 @@ rollup-plugin-esbuild@^4.2.3:
     joycon "^3.0.1"
     jsonc-parser "^3.0.0"
 
-rollup@^2.47.0:
-  version "2.47.0"
-  resolved "https://registry.npmjs.org/rollup/-/rollup-2.47.0.tgz#9d958aeb2c0f6a383cacc0401dff02b6e252664d"
-  integrity sha512-rqBjgq9hQfW0vRmz+0S062ORRNJXvwRpzxhFXORvar/maZqY6za3rgQ/p1Glg+j1hnc1GtYyQCPiAei95uTElg==
+rollup@^2.48.0:
+  version "2.48.0"
+  resolved "https://registry.npmjs.org/rollup/-/rollup-2.48.0.tgz#fceb01ed771f991f29f7bd2ff7838146e55acb74"
+  integrity sha512-wl9ZSSSsi5579oscSDYSzGn092tCS076YB+TQrzsGuSfYyJeep8eEWj0eaRjuC5McuMNmcnR8icBqiE/FWNB1A==
   optionalDependencies:
     fsevents "~2.3.1"
 
