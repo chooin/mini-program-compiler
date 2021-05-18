@@ -19,7 +19,7 @@
     "esbuild": "^0.11.23",
     "eslint": "^7.26.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "fast-files": "^1.0.5",
+    "fast-files": "^1.0.6",
     "fs-extra": "^10.0.0",
     "husky": "^6.0.0",
     "kleur": "^4.1.4",
