@@ -5,9 +5,7 @@
     "lib": ["ESNext"],
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "sourceMap": true,
     "module": "commonjs",
-    "allowJs": true,
     "removeComments": true,
     "paths": {
       "@/*": ["./src/*"],

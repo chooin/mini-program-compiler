@@ -1,16 +1,17 @@
+interface Path {
+  inputDir: string;
+  outputDir: string;
+  inputFile?: string;
+  outputFile?: string;
+}
 /**
  * 获取编译前后的文件地址及目录
  * @param fullPath
  */
 export const path = (
   fullPath: string,
-): {
-  inputDir: string;
-  outputDir: string;
-  inputFile?: string;
-  outputFile?: string;
-} => {
-  if (/\.[^\.]+$/.test(fullPath)) {
+): Path => {
+  if (/\.[^\\.]+$/.test(fullPath)) {
     const inputFile = fullPath;
     const outputFile = (() => {
       if (/\.ts$/.test(fullPath)) {
