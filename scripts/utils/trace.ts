@@ -1,13 +1,13 @@
 import {yellow, white, red} from 'kleur';
 
 class Trace {
-  traces = {};
+  traces = Object.create(null);
 
-  start(file) {
+  start(file: string): void {
     this.traces[file] = Date.now();
   }
 
-  end(file) {
+  end(file: string): string {
     const traceTime = Date.now() - this.traces[file];
     if (traceTime > 1000) {
       return red(`${traceTime}ms`.padEnd(6));
