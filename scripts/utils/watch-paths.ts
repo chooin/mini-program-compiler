@@ -7,11 +7,11 @@ const {compileType, miniprogramRoot, pluginRoot} = json().readFile(
 ).parsed;
 if (compileType === 'plugin') {
   paths = ['project.config.json', miniprogramRoot, pluginRoot].map(
-    (path) => `src/${path}`,
+    (path) => path ? 'src/' : `src/${path}`,
   );
 } else {
   paths = ['project.config.json', miniprogramRoot].map(
-    (path) => `src/${path}`,
+    (path) => path ? 'src/' : `src/${path}`,
   );
 }
 
