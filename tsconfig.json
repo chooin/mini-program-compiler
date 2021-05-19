@@ -2,13 +2,15 @@
   "compilerOptions": {
     "baseUrl": ".",
     "target": "ES2017",
-    "lib": ["ESNext"],
+    "lib": [
+      "ESNext",
+    ],
     "esModuleInterop": true,
     "moduleResolution": "node",
     "removeComments": true,
     "paths": {
-      "@/*": ["./src/*"],
-    },
+      "@/*": ["./src/*"]
+    }
   },
   "exclude": [
     "scripts/**",
