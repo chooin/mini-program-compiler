@@ -1,10 +1,8 @@
 import {existsSync, mkdirpSync} from 'fs-extra';
+import {build} from 'esbuild';
 
-const rollup = require('rollup');
 import {file, logger, trace} from '../utils';
-import {isProd} from '../config';
-import prodConfig from '../rollup.config.prod';
-import devConfig from '../rollup.config.dev';
+import {isProd, env as define} from '../config';
 
 export default (path) => {
   trace.start(path);
@@ -14,15 +12,14 @@ export default (path) => {
   }
   (async () => {
     logger.build(''.padEnd(6), inputFile);
-    const bundle = await rollup.rollup({
-      ...(isProd ? prodConfig : devConfig),
-      input: inputFile,
-    });
-    await bundle.write({
-      file: outputFile,
-      exports: 'named',
-      format: 'cjs',
-    });
+    await build({
+      entryPoints: [inputFile],
+      outfile: outputFile,
+      minify: isProd,
+      treeShaking: isProd ? isProd : 'ignore-annotations',
+      bundle: false,
+      define,
+    })
     logger.create(trace.end(inputFile), `${inputFile} -> ${outputFile}`);
   })();
 };
