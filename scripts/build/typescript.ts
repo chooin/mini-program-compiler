@@ -1,5 +1,5 @@
 import {existsSync, mkdirpSync, readFileSync} from 'fs-extra';
-import {build, buildSync} from 'esbuild';
+import {build} from 'esbuild';
 
 import {file, logger, trace} from '../utils';
 import {isProd, env as define} from '../config';
