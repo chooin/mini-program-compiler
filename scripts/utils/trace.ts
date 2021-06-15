@@ -9,10 +9,10 @@ class Trace {
 
   end(file: string): string {
     const traceTime = Date.now() - this.traces[file];
-    if (traceTime > 200) {
+    if (traceTime > 1000) {
       return red(`${traceTime}ms`.padEnd(6));
     }
-    if (traceTime > 100) {
+    if (traceTime > 500) {
       return yellow(`${traceTime}ms`.padEnd(6));
     }
     return white(`${traceTime}ms`.padEnd(6));
