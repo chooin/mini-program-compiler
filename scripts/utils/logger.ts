@@ -1,11 +1,11 @@
-import {yellow, white, green, red} from 'kleur';
+import {yellow, white, green, red, Color} from 'kleur';
 
 type Messages = string | string[];
 type Options = {
   inline: boolean;
 };
 
-const kleur = (messages: Messages, color, options?: Options) => {
+const kleur = (messages: Messages, color: Color, options?: Options) => {
   if (Array.isArray(messages)) {
     if (options && options.inline) {
       console.log(color(messages.join(' ')));
