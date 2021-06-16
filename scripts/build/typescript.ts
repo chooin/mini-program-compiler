@@ -20,7 +20,11 @@ let paths = (outputDir) => {
   }
 }
 
-export default (path) => {
+/**
+ * 编译 typescript 文件
+ * @param {string} path
+ */
+export default (path: string) => {
   trace.start(path);
   const {inputFile, outputFile, outputDir} = file.path(path);
   if (!existsSync(outputDir)) {

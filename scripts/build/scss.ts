@@ -4,7 +4,11 @@ import {existsSync, mkdirpSync, writeFile} from 'fs-extra';
 const px2rpx = require('postcss-pxtorpx-pro');
 import {file, logger, trace} from '../utils';
 
-export default (path) => {
+/**
+ * 编译 scss 文件
+ * @param {string} path
+ */
+export default (path: string) => {
   trace.start(path);
   const {inputFile, outputFile, outputDir} = file.path(path);
   if (!existsSync(outputDir)) {

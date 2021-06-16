@@ -2,7 +2,11 @@ import {file, logger, trace} from '../utils';
 import {json} from 'fast-files';
 import {existsSync, mkdirpSync} from 'fs-extra';
 
-export default (path) => {
+/**
+ * 创建 project.config.json 文件
+ * @param {string} path
+ */
+export default (path: string) => {
   trace.start(path);
   const {inputFile, outputFile, outputDir} = file.path(path);
   if (!existsSync(outputDir)) {

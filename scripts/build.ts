@@ -3,7 +3,7 @@ import {watchPaths} from './utils';
 import {typescript, scss, projectConfigJson, copy, clearCache, remove, addDir, removeDir} from './build/index';
 import {isProd} from './config';
 
-function bundle(path) {
+function bundle(path: string) {
   if (/\.ts$/.test(path)) {
     return typescript(path);
   }

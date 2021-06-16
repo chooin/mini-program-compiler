@@ -1,7 +1,11 @@
 import {unlink} from 'fs-extra';
 import {file, logger, trace} from '../utils';
 
-export default (path) => {
+/**
+ * 移除文件
+ * @param {string} path
+ */
+export default (path: string) => {
   trace.start(path);
   const {inputFile, outputFile} = file.path(path);
   unlink(outputFile).then(() => {

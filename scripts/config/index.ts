@@ -13,7 +13,7 @@ export const isProd: boolean =
   typeof config.DEBUG === 'undefined' || JSON.parse(config.DEBUG) === false;
 
 export const env: ENV = (() => {
-  const env = Object.create({});
+  const env = Object.create(null);
   Object.keys(config).forEach((key) => {
     if ('DEBUG' === key) {
       env['process.env.DEBUG'] = !isProd;
