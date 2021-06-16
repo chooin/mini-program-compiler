@@ -1,4 +1,4 @@
-import {existsSync, mkdirp, mkdirpSync} from 'fs-extra';
+import {existsSync, mkdirp} from 'fs-extra';
 import {file, logger, trace} from '../utils';
 
 /**

@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
+    "prepare": "husky install",
     "preinstall": "node scripts/check-yarn.js",
     "start": "DOTENV=.env.development ts-node scripts/build.ts",
     "build": "DOTENV=.env.production ts-node scripts/build.ts",
@@ -18,7 +19,7 @@
     "esbuild": "^0.12.8",
     "eslint": "^7.28.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "fast-files": "^1.0.6",
+    "fast-files": "^1.0.9",
     "fs-extra": "^10.0.0",
     "husky": "^6.0.0",
     "kleur": "^4.1.4",
