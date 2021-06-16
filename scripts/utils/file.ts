@@ -1,37 +1,43 @@
+import {parse} from 'path';
+
 interface Path {
+  type: 'file' | 'dir',
   inputDir: string;
   outputDir: string;
   inputFile?: string;
   outputFile?: string;
 }
+
+const extReplace = {
+  '.ts': '.js',
+  '.scss': '.wxss',
+}
+
 /**
  * 获取编译前后的文件地址及目录
- * @param fullPath
+ * @param inputFile
  */
 export const path = (
-  fullPath: string,
+  inputFile: string,
 ): Path => {
-  if (/\.[^\\.]+$/.test(fullPath)) {
-    const inputFile = fullPath;
-    const outputFile = (() => {
-      if (/\.ts$/.test(fullPath)) {
-        return fullPath.replace(/^src/, 'dist').replace(/\.ts$/, '.js');
-      }
-      if (/\.scss$/.test(fullPath)) {
-        return fullPath.replace(/^src/, 'dist').replace(/\.scss$/, '.wxss');
-      }
-      return fullPath.replace(/^src/, 'dist');
-    })();
-    const inputDir = fullPath.split('/').slice(0, -1).join('/');
-    const outputDir = fullPath
-      .replace(/^src/, 'dist')
-      .split('/')
-      .slice(0, -1)
-      .join('/');
-    return {inputFile, outputFile, inputDir, outputDir};
+  const fileParse = parse(inputFile);
+  const inputDir = fileParse.dir;
+  const outputDir = inputDir
+    .replace(/^src/, 'dist');
+  if (fileParse.ext) {
+    const outputFile = `${outputDir}/${fileParse.name}${extReplace[fileParse.ext] ?? fileParse.ext}`;
+    return {
+      type: 'file',
+      inputFile,
+      outputFile,
+      inputDir,
+      outputDir,
+    };
   } else {
-    const inputDir = fullPath;
-    const outputDir = fullPath.replace(/^src/, 'dist');
-    return {inputDir, outputDir};
+    return {
+      type: 'dir',
+      inputDir,
+      outputDir
+    };
   }
 };
