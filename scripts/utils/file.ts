@@ -37,7 +37,7 @@ export const path = (
     return {
       type: 'dir',
       inputDir,
-      outputDir
+      outputDir,
     };
   }
 };
