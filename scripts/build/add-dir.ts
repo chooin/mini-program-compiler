@@ -6,6 +6,9 @@ import {file, logger, trace} from '../utils';
  * @param {string} path
  */
 export default (path: string) => {
+  if (path === 'src/') {
+    return;
+  }
   const {inputDir, outputDir} = file.path(path);
   if (!existsSync(outputDir)) {
     trace.start(inputDir);
