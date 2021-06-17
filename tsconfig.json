@@ -2,9 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "target": "ES2017",
-    "lib": [
-      "ESNext",
-    ],
+    "lib": ["ESNext"],
     "esModuleInterop": true,
     "moduleResolution": "node",
     "removeComments": true,
@@ -12,12 +10,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "exclude": [
-    "scripts/**",
-    "node_modules/**"
-  ],
-  "include": [
-    "typings/*.d.ts",
-    "src/**/*",
-  ],
+  "exclude": ["scripts/**", "node_modules/**"],
+  "include": ["typings/*.d.ts", "src/**/*"]
 }

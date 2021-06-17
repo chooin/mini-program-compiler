@@ -1,0 +1,24 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": ["airbnb-typescript/base", "prettier"],
+  "plugins": ["@typescript-eslint", "prettier"],
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "prettier/prettier": "error",
+    "prefer-promise-reject-errors": "off",
+    "import/prefer-default-export": "off"
+  },
+  "globals": {
+    "App": true,
+    "Page": true,
+    "Component": true,
+    "getCurrentPages": true
+  }
+}
