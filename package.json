@@ -3,7 +3,7 @@
   "scripts": {
     "prepare": "husky install",
     "preinstall": "node scripts/check-yarn.js",
-    "start": "DOTENV=.env.development ts-node scripts/build.ts",
+    "dev": "DOTENV=.env.development ts-node scripts/build.ts",
     "build": "DOTENV=.env.production ts-node scripts/build.ts",
     "lint": "eslint ."
   },
