@@ -6,11 +6,8 @@ import {file, logger, trace} from '../utils';
  * @param {string} path
  */
 export default (path: string) => {
-  if (path === 'src/') {
-    return;
-  }
   const {inputDir, outputDir} = file.path(path);
-  if (!existsSync(outputDir)) {
+  if (outputDir && !existsSync(outputDir)) {
     trace.start(inputDir);
     mkdirp(outputDir).then(() => {
       logger.create(trace.end(inputDir), `${inputDir} -> ${outputDir}`);
