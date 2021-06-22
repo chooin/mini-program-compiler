@@ -5,7 +5,7 @@ import {resolve} from 'path';
 import * as logger from './logger';
 
 let path = resolve(__dirname, '../../src/project.config.json');
-let paths = [];
+let paths: string[] = [];
 let exists = existsSync(path);
 if (exists) {
   const {compileType, miniprogramRoot, pluginRoot} = json().readFile(path).parsed;

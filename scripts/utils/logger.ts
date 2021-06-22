@@ -39,18 +39,18 @@ export const error = (messages: Messages, options?: Options) => {
   kleur(messages, red, options);
 };
 
-export const create = (...arg) => {
+export const create = (...arg: string[]) => {
   console.log(`${green('生成')} ${arg.join(' ')}`);
 };
 
-export const build = (...arg) => {
+export const build = (...arg: string[]) => {
   console.log(`${yellow('编译')} ${arg.join(' ')}`);
 };
 
-export const copy = (...arg) => {
+export const copy = (...arg: string[]) => {
   console.log(`${white('拷贝')} ${arg.join(' ')}`);
 };
 
-export const remove = (...arg) => {
+export const remove = (...arg: string[]) => {
   console.log(`${red('删除')} ${arg.join(' ')}`);
 };
